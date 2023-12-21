@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Gene Plotter</title>
+    <style>
+        /* CSS Reset */
+        html, body, div, h1, h2, h3, h4, p, a, img, ul, ol, li, table, tr, td, th, tbody, thead, tfoot, form, fieldset, legend, input, textarea {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            font-family: 'Arial', sans-serif;
+            line-height: 1;
+        }
+
+        body {
+            font-size: 16px;
+            color: #003C3C;
+            background-color: #00C896;
+            padding: 20px;
+        }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h2, h4 {
+            margin-bottom: 10px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        form {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 6px;
+        }
+
+        .feature-column {
+            width: 24%;
+            float: left;
+            margin-right: 1%;
+            box-sizing: border-box;
+        }
+
+        input[type="text"], input[type="submit"] {
+            display: block;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            width: 98%;
+        }
+
+        input[type="submit"] {
+            background-color: #003C3C;
+            color: white;
+            cursor: pointer;
+            width: 98%;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #003C3C;
+        }
+
+        img {
+            border-radius: 4px;
+            margin-top: 20px;
+        }
+
+        .clearfix::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Gene Plotter</h2>
+        <form action="/" method="post">
+            <label>Select Feature Types:</label><br>
+            <br>
+            <div class="feature-column">
+                <h4>Functional Domains:</h4>
+                {% for feature in feature_groups['functional_domains'] %}
+                <input type="checkbox" name="features" value="{{ feature }}" checked>{{ feature }}<br>
+                {% endfor %}
+            </div>
+
+            <div class="feature-column">
+                <h4>Transmembrane Regions:</h4>
+                {% for feature in feature_groups['transmembrane_regions'] %}
+                <input type="checkbox" name="features" value="{{ feature }}" >{{ feature }}<br>
+                {% endfor %}
+            </div>
+
+            <div class="feature-column">
+                <h4>Active or Binding Sites:</h4>
+                {% for feature in feature_groups['active_binding_sites'] %}
+                <input type="checkbox" name="features" value="{{ feature }}" >{{ feature }}<br>
+                {% endfor %}
+            </div>
+
+            <div class="feature-column">
+                <h4>Post-Translational Modifications:</h4>
+                {% for feature in feature_groups['post_translational'] %}
+                <input type="checkbox" name="features" value="{{ feature }}" >{{ feature }}<br>
+                {% endfor %}
+            </div>
+
+            <div class="clearfix"></div>
+
+            <label>Gene Name:</label>
+            <input type="text" name="gene_name">
+            <input type="submit" value="Generate Plot">
+        </form>
+
+        {% if error_message %}
+        <br>
+            <div class="alert alert-danger">
+                {{ error_message }}
+            </div>
+        {% endif %}
+
+        {% if plot_base64 %}
+        <img src="data:image/png;base64,{{ plot_base64 }}" alt="Generated Plot" style="width: 100%;">
+        {% endif %}
+    </div>
+</body>
+
+</html>
