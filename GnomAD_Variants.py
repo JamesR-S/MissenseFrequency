@@ -106,7 +106,7 @@ def extract_aa_position(hgvsp):
     return int(position) if position else None
 
 def plot_to_base64(gene_name,selected_features):
-    # Your matplotlib code here using the gene_name
+    # Plotting Function
     MAX_WIDTH = 15
     aa_per_row = 100
     row_spacing = 2.0
